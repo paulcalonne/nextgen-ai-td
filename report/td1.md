@@ -1,7 +1,7 @@
 # TD 1 report — Comparing models
 
 **Sub-group:** DIA6-5 · **Module:** Trustworthy Generative AI (ESILV, A4)
-· **Members:** Alexandre, Tom, Nathanael, Loïs, Clement, Paul
+· **Members:** Alexandre, Tom, Nathanael, Loïs, Clement, Paul ·
 Files to provide:
 [`reference-td1.csv`](../reference-td1.csv) · [`traces-TD1.csv`](../traces-TD1.csv) · [`model-question-comparison-en.csv`](../model-question-comparison-en.csv) · [`five-model-summary-en.csv`](../five-model-summary-en.csv)
 
