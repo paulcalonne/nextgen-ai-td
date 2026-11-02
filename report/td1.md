@@ -52,7 +52,7 @@ All twenty values match the published reference values, so no discrepancy needed
 | qwen3.8-27b | 11/20 | 6 | 3 | 0 | 24 |
 | north-mini-code:free | 10/20 | 10 | 0 | 0 | 20 |
 
-Overall: 67 correct out of 100 final cells (the trace also holds 8 HTTP 429 lines; see 3.4).
+Overall: 67 correct out of 100 final cells.
 
 ### 3.2 By family
 
@@ -71,17 +71,12 @@ Questions missed by most models: C15, C16 and C17 (1 model correct out of 5), th
 
 ### 3.3 Observed causes of failure
 
-Causes are read from the SQL and error fields of each trace and recorded per cell in the `explanation` column of the comparison CSV.
-
-- **Broken age convention** (the dominant cause across the 33 non-correct cells). Typical forms: matching a single birthday instead of the range `birth_date > date − 26 years AND <= date − 25 years` (e.g. C11 and C15); fixing `birth_year = 2001` and so dropping late-2000 births (dots on C09, C11, C16, C17; 120b on C16); contradictory month-day conditions that return 0 (qwen on C08, C10, C17, C18); wrong sub-range (20b on C09, C17).
+- **Broken age convention** (the dominant cause across the 33 non-correct cells). Typical forms: matching a single birthday instead of the range `birth_date > date − 26 years AND <= date − 25 years`; fixing `birth_year = 2001` and so dropping late-2000 births (dots on C09, C11, C16, C17; 120b on C16); contradictory month-day conditions that return 0 (qwen on C08, C10, C17, C18); wrong sub-range (20b on C09, C17).
 - **Added period filter** that the question does not contain: north-mini and dots both appended `2026-03-01 .. 2026-06-01` to age-only questions (north-mini on C02, C08–C11, C16; dots on C02, C08, C09, C11).
-- **Syntax / format slips on qwen**: `COALESE` instead of `COALESCE` (C01 rejected because of ```` ```sql ```` fences, C06 invalid at run time), and C19 truncated after repeating a contradictory `WHERE` clause until the output cap.
-- **Operator precedence** (qwen, C16): an unparenthesised `OR` between the 2001 and 2000 birth-date branches bypassed the product filter.
-- **Access failures, not model errors**: see 3.4.
 
 ### 3.4 Access failures and retries
 
-Observed in the trace (retry limit: one per cell):
+Observed in the trace:
 
 | Cell(s) | Limit hit (Groq) | Outcome |
 |---|---|---|
@@ -93,19 +88,19 @@ gpt-oss-120b, north-mini and dots recorded no 429. A `not_executed` cell is an a
 
 ### 3.5 Prompt control
 
-Each question has a single prompt fingerprint (`prompt_sha256`) across all five models: 20 distinct fingerprints for 20 questions, so gaps between models are not attributable to different wording.
+Each question has a single prompt fingerprint across all five models: 20 distinct fingerprints for 20 questions, so gaps between models are not attributable to different wording.
 
 ## 4. Portfolio reading (Step 3, summary CSV)
 
 - Only gpt-oss-120b has a documented paid route for the exact model (input 0.15 / output 0.60 USD per million tokens on the aggregator, read 2026-09-29). All five were used on free routes at $0 (`cost_native` is 0 on every line).
-- Public index (portfolio of 2026-09-28): qwen3.8-27b 33.7, gpt-oss-120b 11.6, gpt-oss-20b 9.0. north-mini and dots are absent from that snapshot (selected on 2026-10-14), so their price and index fields are `N/A`.
+- Public index (portfolio of 2026-09-28): qwen3.8-27b 33.7, gpt-oss-120b 11.6, gpt-oss-20b 9.0. north-mini and dots are absent from that snapshot, so their price and index fields are `N/A`.
 - **The public index does not predict the result of this batch:** qwen has the highest index (33.7) and finished at 11/20, while gpt-oss-120b (11.6) finished first.
 
 ## 5. Interpretation
 
-**Facts (from the traces):** the 120b model is the only one correct on all five age-only questions; four of the five models get 10/10 on questions without an age condition when they are reachable (qwen is the exception at 8/10 because of syntax slips); the two OpenRouter free models score 0/10 and 2/10 on questions with an age condition.
+**Facts:** the 120b model is the only one correct on all five age-only questions; four of the five models get 10/10 on questions without an age condition when they are reachable (qwen is the exception at 8/10 because of syntax slips); the two OpenRouter free models score 0/10 and 2/10 on questions with an age condition.
 
-**Hypotheses (not tested in this session):**
+**Hypotheses:**
 1. The completed-age rule is hard to produce in one shot because it requires reasoning about a date range or a month-day comparison; the failures cluster there across all families.
 2. The added `2026-03-01 .. 2026-06-01` filter in north-mini and dots may come from an example date in the prompt being copied. We have not compared this with the prompt text, so it is only a lead.
 3. A routing rule "cheap model for period/product questions, stronger model for age questions" looks plausible from this batch. It rests on one run at temperature 0, one question set and a single sample per cell, so it is a routing hypothesis and not a model ranking.
@@ -116,7 +111,7 @@ Each question has a single prompt fingerprint (`prompt_sha256`) across all five 
 - 20 questions, 6 of which are period-only and 1 product-only: the family percentages rest on very small counts (the product family has a single question).
 - The rate limits (Groq TPM and OTPM) affected only the 20b and qwen models; their results include retry effects, and the C20 value for 20b is missing.
 - Prices and public indices come from the portfolio snapshot of 2026-09-28/29 and not from a live read on the day of the session.
-- Files named in the hand-in page that are **not yet in the repository** at the time of writing: `traces-td1.jsonl`, `prompts-en.md` (system message and user template as used), a configuration file read by the code (e.g. `modeles-autorises.json`), and the orchestrator code itself. The README also names the traces file in lowercase (`traces-td1.csv`) while the file is `traces-TD1.csv`. These must be added or corrected before the hand-in.
+- Files named in the hand-in page that are **not yet in the repository** at the time of writing: `traces-td1.jsonl`, `prompts-en.md` (system message and user template as used), a configuration file read by the code, and the orchestrator code itself. The README also names the traces file in lowercase (`traces-td1.csv`) while the file is `traces-TD1.csv`. These must be added or corrected before the hand-in.
 - The `reference-td1.csv` file contains the query and value of each case but not which member wrote or cross-checked which query.
 
 ## 7. Contributions
@@ -132,7 +127,6 @@ Roles as recorded in the README (each member also took part in the reference que
 | Clement | E — dots-3-note-preview (OpenRouter) |
 | Paul | F — cross-checking references, trace consolidation, summaries |
 
-*To complete by the sub-group:* which member wrote and cross-checked which of the twenty references, and each member's specific contribution beyond the role above.
 
 ## 8. Next steps for TD 2
 
