@@ -1,6 +1,6 @@
 # TD 1 report — Comparing models
 
-**Sub-group:** DIA6-G5 · **Module:** Trustworthy Generative AI (ESILV, A4) · **Session:** 21 October 2026
+**Sub-group:** DIA6-5 · **Module:** Trustworthy Generative AI (ESILV, A4) · **Session:** 21 October 2026
 · **Members:** Alexandre, Tom, Nathanael, Loïs, Clement, Paul (see the contributions section)
 
 Files to provide:
