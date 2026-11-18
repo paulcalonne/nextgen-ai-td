@@ -1,0 +1,42 @@
+TD 2 Step 2, wrong consensus. Traces: traces-TD1.csv (nature = real). DB: data/boutique.sqlite sha256 0077e235adc2ca64...
+
+== C18 == reference (re-executed) 62480, reference in traces 62480
+  120b       stored    62480 verdict correct      re-executed 62480
+  20b        stored    62480 verdict correct      re-executed 62480
+  north-mini stored    39580 verdict incorrect    re-executed 39580
+  qwen       stored        0 verdict incorrect    re-executed 0
+  dots       stored    39580 verdict incorrect    re-executed 39580
+  agreeing pair north-mini + dots: shared wrong value 39580, gap 22900
+  2-of-3 fixed (120b, north-mini, qwen)    k=2/n=3: abstain (top 1)
+  3-of-5 (all five)                        k=3/n=5: abstain (top 2)
+  2-of-3 (120b, north-mini, dots)       k=2/n=3: 39580 (2 votes) -> WRONG CONSENSUS   <- panel containing the pair
+  delta row C004 born 2000-09-25: 11940
+  delta row C022 born 2000-08-14: 10960
+  delta total 22900 == reference - wrong value (22900): True
+
+== C16 == reference (re-executed) 376740, reference in traces 376740
+  120b       stored   211260 verdict incorrect    re-executed 211260
+  20b        stored   376740 verdict correct      re-executed 376740
+  north-mini stored   200560 verdict incorrect    re-executed 200560
+  qwen       stored   480240 verdict incorrect    re-executed 480240
+  dots       stored   211260 verdict incorrect    re-executed 211260
+  agreeing pair 120b + dots: shared wrong value 211260, gap 165480
+  2-of-3 fixed (120b, north-mini, qwen)    k=2/n=3: abstain (top 1)
+  3-of-5 (all five)                        k=3/n=5: abstain (top 2)
+  2-of-3 (120b, dots, north-mini)       k=2/n=3: 211260 (2 votes) -> WRONG CONSENSUS   <- panel containing the pair
+  delta row C005 born 2000-09-26: 92210
+  delta row C007 born 2000-11-30: 73270
+  delta total 165480 == reference - wrong value (165480): True
+
+== C08 == reference (re-executed) 605580, reference in traces 605580
+  120b       stored   605580 verdict correct      re-executed 605580
+  20b        stored   605580 verdict correct      re-executed 605580
+  north-mini stored    18440 verdict incorrect    re-executed 18440
+  qwen       stored        0 verdict incorrect    re-executed 0
+  dots       stored    18440 verdict incorrect    re-executed 18440
+  agreeing pair north-mini + dots: shared wrong value 18440, gap 587140
+  2-of-3 fixed (120b, north-mini, qwen)    k=2/n=3: abstain (top 1)
+  3-of-5 (all five)                        k=3/n=5: abstain (top 2)
+  2-of-3 (120b, north-mini, dots)       k=2/n=3: 18440 (2 votes) -> WRONG CONSENSUS   <- panel containing the pair
+
+Checks failed: 0
