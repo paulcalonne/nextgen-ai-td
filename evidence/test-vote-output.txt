@@ -1,0 +1,15 @@
+OK   k=1 with n=3 (not a strict majority): ValueError (k=1 is not a strict majority of n=3 (need n // 2 < k <= n))
+OK   k=4 with n=3 (k > n): ValueError (k=4 is not a strict majority of n=3 (need n // 2 < k <= n))
+OK   k=2 with n=4 (n // 2 = 2, need k > 2): ValueError (k=2 is not a strict majority of n=4 (need n // 2 < k <= n))
+OK   k=0: ValueError (k=0 is not a strict majority of n=3 (need n // 2 < k <= n))
+OK   same (provider, model) twice: ValueError (duplicate proposal for groq:a: not a second vote)
+OK   2-of-3 agreement: {'consensus': True, 'value': 100, 'votes': 2, 'models': ['groq:a', 'groq:b']}
+OK   2-of-3 disagreement abstains: {'consensus': False, 'value': None, 'votes': 1, 'models': []}
+OK   3-of-5 with only 2 equal values abstains: {'consensus': False, 'value': None, 'votes': 2, 'models': []}
+OK   3-of-5 with 3 equal values: {'consensus': True, 'value': 100, 'votes': 3, 'models': ['groq:a', 'groq:b', 'groq:c']}
+OK   error stays in n: 2-of-3 still reachable: {'consensus': True, 'value': 100, 'votes': 2, 'models': ['groq:a', 'groq:b']}
+OK   error stays in n: k=3 is not reachable with 2 votes: {'consensus': False, 'value': None, 'votes': 2, 'models': []}
+OK   all members failed: {'consensus': False, 'value': None, 'votes': 0, 'models': []}
+OK   wrong consensus is returned (agreement is not a proof): {'consensus': True, 'value': 0, 'votes': 2, 'models': ['groq:a', 'groq:b']}
+OK   value 0 counts as a vote: {'consensus': True, 'value': 0, 'votes': 2, 'models': ['groq:a', 'groq:b']}
+all tests passed

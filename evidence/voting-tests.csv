@@ -1,0 +1,15 @@
+test_id,nature,panel,fixed_n,k,input_values,unavailable_members,expected_result_or_abstention,actual_result,agreeing_members,evidence_file
+T1,simulation,2-of-3 fixed panel,3,2,100;100;120,none,consensus 100 (2 votes),"{""consensus"": true, ""value"": 100, ""votes"": 2}",groq:openai/gpt-oss-120b;openrouter:cohere/north-mini-code:free,test-vote.py
+T2,simulation,2-of-3 fixed panel,3,2,100;110;120,none,abstention (top 1),"{""consensus"": false, ""value"": null, ""votes"": 1}",,test-vote.py
+T3,simulation,2-of-3 fixed panel,3,2,100;None;None,north-mini; qwen,abstention (top 1),"{""consensus"": false, ""value"": null, ""votes"": 1}",,test-vote.py
+T4,simulation,2-of-3 fixed panel,3,2,100;100;None,qwen,"consensus 100 (2 votes), n stays 3","{""consensus"": true, ""value"": 100, ""votes"": 2}",groq:openai/gpt-oss-120b;openrouter:cohere/north-mini-code:free,test-vote.py
+T5,simulation,duplicate route,3,2,100;100;5,none,ValueError (duplicate is not a second vote),ValueError: duplicate proposal for groq:openai/gpt-oss-120b: not a second vote,,test-vote.py
+T6,simulation,2-of-3 fixed panel,3,1,100;100;120,none,ValueError (k=1 not a strict majority),ValueError: k=1 is not a strict majority of n=3 (need n // 2 < k <= n),,test-vote.py
+T7,simulation,2-of-3 fixed panel,3,4,100;100;120,none,ValueError (k > n),ValueError: k=4 is not a strict majority of n=3 (need n // 2 < k <= n),,test-vote.py
+T8,simulation,2-of-3 fixed panel,3,2,0;0;100,none,"consensus 0 (wrong value, 2 votes)","{""consensus"": true, ""value"": 0, ""votes"": 2}",groq:openai/gpt-oss-120b;openrouter:cohere/north-mini-code:free,atelier-vote.py (wrong consensus example)
+T9,real,2-of-3,3,2,C02: 590320;68670;590320,none,consensus 590320 (120b + qwen),"{""consensus"": true, ""value"": 590320, ""votes"": 2}",groq:openai/gpt-oss-120b;groq:qwen/qwen3.8-27b,traces-TD1.csv
+T10,real,2-of-3,3,2,C10: 558980;39580;0,none,abstention (top 1),"{""consensus"": false, ""value"": null, ""votes"": 1}",,traces-TD1.csv
+T11,real,2-of-3,3,2,C19: 1990;13930;sql_rejected,qwen3.8-27b,"abstention (top 1), qwen sql_rejected stays in n","{""consensus"": false, ""value"": null, ""votes"": 1}",,traces-TD1.csv
+T12,real,3-of-5,5,3,C09: 487980;208820;36610;487980;123720,none,abstention (top 2),"{""consensus"": false, ""value"": null, ""votes"": 2}",,traces-TD1.csv
+T13,real,3-of-5,5,3,C10: 558980;558980;39580;0;558980,none,consensus 558980 (3 votes),"{""consensus"": true, ""value"": 558980, ""votes"": 3}",groq:openai/gpt-oss-120b;groq:openai/gpt-oss-20b;openrouter:dots-studio/dots-3-note-preview:free,traces-TD1.csv
+T14,real,3-of-5,5,3,C20: 1106090;not_executed;1106090;1106090;1106090,gpt-oss-20b,"consensus 1106090 (4 votes), 20b not_executed stays in n","{""consensus"": true, ""value"": 1106090, ""votes"": 4}",groq:openai/gpt-oss-120b;openrouter:cohere/north-mini-code:free;groq:qwen/qwen3.8-27b;openrouter:dots-studio/dots-3-note-preview:free,traces-TD1.csv
